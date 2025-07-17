@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import api from '../services/api';
 import Header from '../components/Header';
-import ProductCard, { Product } from '../components/ProductCard';
+import ProductCard, { type Product } from '../components/ProductCard';
 
 export default function CategoryPage() {
     const [products, setProducts] = useState<Product[]>([]);

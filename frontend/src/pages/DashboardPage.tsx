@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import Header from '../components/Header';
-import ProductCard, { Product } from '../components/ProductCard';
+import type { Product } from '../types/Product';
 import { motion } from 'framer-motion';
 
 const containerVariants = {

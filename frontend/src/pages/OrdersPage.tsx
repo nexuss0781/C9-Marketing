@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import Header from '../components/Header';
-import { Product } from '../components/ProductCard';
+import type { Product } from '../components/ProductCard';
 
 interface OrderData { selling: Product[]; buying: Product[]; }
 const OrderItemCard = ({ item, isSeller }: { item: Product; isSeller: boolean; }) => {
