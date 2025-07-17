@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
 import Header from '../components/Header';
-import ProductCard, { Product } from '../components/ProductCard';
+import ProductCard, { type Product } from '../components/ProductCard';
 
 export default function DashboardPage() {
   const [products, setProducts] = useState<Product[]>([]);
