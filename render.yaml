@@ -1,14 +1,9 @@
-# render.yaml
 services:
-  - type: web
+  - type: static
     name: c9-frontend
     rootDir: frontend
     buildCommand: npm run build
-    startCommand: npm run preview -- --port $PORT
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE_URL
         value: https://c9-marketing.onrender.com/api
-    buildFilter:
-      paths:
-        - frontend/**/*
-    staticPublishPath: dist
