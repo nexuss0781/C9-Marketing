@@ -1,9 +1,28 @@
 services:
-  - type: static
+  - type: web
+    name: c9-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: ""
+    startCommand: gunicorn app:app
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://c9_user:MBCIBbxpdknplQ3IlWULfBUoQ91TMXwa@dpg-d1sd77ruibrs73aa7ir0-a.oregon-postgres.render.com:5432/c9
+      - key: JWT_SECRET_KEY
+        value: supersecretjwtkey987654321
+    buildFilter:
+      paths:
+        - backend/**/*
+  
+  - type: web
     name: c9-frontend
+    runtime: node
     rootDir: frontend
     buildCommand: npm run build
-    staticPublishPath: dist
+    startCommand: npm run preview -- --port $PORT
     envVars:
       - key: VITE_API_BASE_URL
-        value: https://c9-marketing.onrender.com/api
+        value: https://c9-backend.onrender.com/api
+    buildFilter:
+      paths:
+        - frontend/**/*
