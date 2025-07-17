@@ -51,17 +51,11 @@ class UserModel(db.Model):
     password_hash = db.Column(db.String(128), nullable=False)
     address = db.Column(db.String(200), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-<<<<<<< HEAD
     # NEW FIELDS FOR PHASE 3
-    bio = db.Column(db.Text, nullable=True)
-    profilePhotoUrl = db.Column(db.String(255), nullable=True, default='https://via.placeholder.com/150')
-    socialMedia = db.Column(db.JSON, nullable=True) # e.g., {"telegram": "user", "twitter": "user"}
-=======
     bio = db.Column(db.Text, nullable=True)
     profilePhotoUrl = db.Column(db.String(255), nullable=True, default='https://via.placeholder.com/150')
     socialMedia = db.Column(db.JSON, nullable=True)
     preferences = db.Column(db.Text, nullable=True, default='Prefers cash on pickup.')
->>>>>>> 5f1aa463a79ab36c658b68dff4b33ded407bc008
 
     products = db.relationship('ProductModel', backref='seller', lazy=True, cascade="all, delete-orphan")
     notifications = db.relationship('NotificationModel', backref='recipient', lazy=True, cascade="all, delete-orphan")
@@ -119,10 +113,6 @@ class NotificationModel(db.Model):
 user_sids = {}
 
 def serialize_product(p, is_detailed=False):
-<<<<<<< HEAD
-    #... (no changes)
-    data = { "id": p.id, "name": p.name, "price": p.price, "photos": p.photos, "category": p.category, "condition": p.condition, "status": p.status, "address": p.address, "created_at": p.created_at.isoformat(), "seller": { "id": p.seller.id, "username": p.seller.username } }
-=======
     """Helper function to convert a ProductModel object to a dictionary."""
     data = {
         "id": p.id,
@@ -140,7 +130,6 @@ def serialize_product(p, is_detailed=False):
             "username": p.seller.username
         }
     }
->>>>>>> 5f1aa463a79ab36c658b68dff4b33ded407bc008
     if is_detailed:
         data['seller']['phone'] = p.seller.phone; data['seller']['address'] = p.seller.address; data['seller']['member_since'] = p.seller.created_at.isoformat()
     return data
@@ -205,8 +194,6 @@ def get_products():
     products = query.all()
     return jsonify([serialize_product(p) for p in products]), 200
 
-<<<<<<< HEAD
-=======
 @app.route('/api/products/category/<string:category_name>', methods=['GET'])
 def get_products_by_category(category_name):
     products = ProductModel.query.filter_by(status='Available', category=category_name).order_by(ProductModel.created_at.desc()).all()
@@ -233,56 +220,51 @@ def get_my_orders():
         "buying": [serialize_product(p, is_detailed=True) for p in bought_by_me]
     }), 200    
 
->>>>>>> 5f1aa463a79ab36c658b68dff4b33ded407bc008
 @app.route('/api/products/<int:product_id>', methods=['GET']) #... (no changes)
 def get_product_detail(product_id): product=ProductModel.query.get_or_404(product_id); return jsonify(serialize_product(product, is_detailed=True)),200
 
 # NEW ENDPOINT for marking as sold
-<<<<<<< HEAD
-@app.route('/api/products/<int:product_id>/sold', methods=['PUT'])
-@jwt_required()
-def mark_as_sold(product_id):
-    current_user_id = get_jwt_identity()
-    product = ProductModel.query.get_or_404(product_id)
-=======
 @app.route('/api/products/<int:product_id>/status', methods=['PUT'])
 @jwt_required()
-def update_product_pickup_status(product_id):
+def update_product_status(product_id):
     current_user_id = get_jwt_identity()
     product = ProductModel.query.get_or_404(product_id)
     data = request.get_json()
-    new_status = data.get('pickup_status')
->>>>>>> 5f1aa463a79ab36c658b68dff4b33ded407bc008
 
     if product.seller_id != current_user_id:
         return jsonify({"msg": "Unauthorized action"}), 403
-    
-<<<<<<< HEAD
-    product.status = 'Sold'
-    db.session.commit()
 
-    # Find the other participant in the chat to notify them
-    chat = ChatModel.query.filter_by(product_id=product.id).first()
-    if chat:
-        for participant in chat.participants:
-            if participant.id != current_user_id:
-                create_notification(
-                    user_id=participant.id, 
-                    content=f"The item '{product.name}' has been marked as sold.",
-                    link_url=f"/product/{product.id}"
-                )
+    if 'status' in data:
+        if data['status'] == 'Sold':
+            product.status = 'Sold'
+            db.session.commit()
 
-    return jsonify({"msg": "Product marked as sold"}), 200
+            # Find the other participant in the chat to notify them
+            chat = ChatModel.query.filter_by(product_id=product.id).first()
+            if chat:
+                for participant in chat.participants:
+                    if participant.id != current_user_id:
+                        create_notification(
+                            user_id=participant.id, 
+                            content=f"The item '{product.name}' has been marked as sold.",
+                            link_url=f"/product/{product.id}"
+                        )
 
-=======
-    allowed_statuses = ['Awaiting Drop-off', 'At Center', 'Shipped', 'Completed']
-    if not new_status or new_status not in allowed_statuses:
-        return jsonify({"msg": "Invalid status provided"}), 400
+            return jsonify({"msg": "Product marked as sold"}), 200
+        else:
+            return jsonify({"msg": "Invalid status"}), 400
+
+    if 'pickup_status' in data:
+        new_pickup_status = data.get('pickup_status')
+        allowed_statuses = ['Awaiting Drop-off', 'At Center', 'Shipped', 'Completed']
+        if not new_pickup_status or new_pickup_status not in allowed_statuses:
+            return jsonify({"msg": "Invalid pickup status provided"}), 400
         
-    product.pickup_status = new_status
-    db.session.commit()
-    return jsonify({"msg": f"Product status updated to {new_status}"}), 200
->>>>>>> 5f1aa463a79ab36c658b68dff4b33ded407bc008
+        product.pickup_status = new_pickup_status
+        db.session.commit()
+        return jsonify({"msg": f"Product pickup status updated to {new_pickup_status}"}), 200
+
+    return jsonify({"msg": "No valid status provided"}), 400
 
 # --- Chat/Profile/Notification endpoints (to be built)
 
@@ -294,8 +276,6 @@ def get_user_id_from_sid(sid): #... (no changes)
         if user_sid == sid: return user_id
     return None
 
-<<<<<<< HEAD
-=======
 @app.route('/api/chats/<int:chat_id>', methods=['GET'])
 @jwt_required()
 def get_chat_history(chat_id):
@@ -322,7 +302,6 @@ def get_chat_history(chat_id):
         "messages": messages
     })
 
->>>>>>> 5f1aa463a79ab36c658b68dff4b33ded407bc008
 @socketio.on('connect') #... (no changes)
 def handle_connect():
     token = request.args.get('token');
@@ -346,48 +325,6 @@ def handle_purchase_request(data):
         requesting_user = UserModel.query.get(requesting_user_id);
         emit('server:new_request', {'productName': product.name, 'productId': product.id, 'buyerUsername': requesting_user.username, 'buyerId': requesting_user.id}, room=seller_sid)
     emit('server:request_sent', {'msg': f"Request for '{product.name}' sent."})
-<<<<<<< HEAD
-
-@socketio.on('client:accept_request') # UPDATED to add notification
-def handle_accept_request(data):
-    seller_id = get_user_id_from_sid(request.sid); buyer_id = data.get('buyerId'); product_id = data.get('productId');
-    product = ProductModel.query.get(product_id);
-    if not product or product.seller_id != seller_id: return emit('server:error', {'msg': 'Invalid request acceptance.'})
-    seller = UserModel.query.get(seller_id); buyer = UserModel.query.get(buyer_id);
-    new_chat = ChatModel(product_id=product_id, participants=[seller, buyer]); db.session.add(new_chat); db.session.commit();
-    chat_room_name = f'chat_{new_chat.id}'; buyer_sid = user_sids.get(buyer_id);
-    if buyer_sid: join_room(chat_room_name, sid=buyer_sid)
-    join_room(chat_room_name, sid=request.sid)
-    
-    # Notify buyer that the chat has started
-    create_notification(
-        user_id=buyer_id, 
-        content=f"{seller.username} accepted your request for '{product.name}'. You can now chat.",
-        link_url=f"/chat/{new_chat.id}"
-    )
-    emit('server:chat_started', {'chatId': new_chat.id}, room=chat_room_name)
-
-@socketio.on('client:send_message') # UPDATED to add notification
-def handle_send_message(data):
-    sender_id = get_user_id_from_sid(request.sid); chat_id = data.get('chatId'); content = data.get('content');
-    if not sender_id or not chat_id or not content: return
-    chat = ChatModel.query.get(chat_id);
-    if sender_id not in [p.id for p in chat.participants]: return
-    new_message = MessageModel(chat_id=chat_id, sender_id=sender_id, content=content); db.session.add(new_message); db.session.commit();
-    message_data = { "id": new_message.id, "content": new_message.content, "timestamp": new_message.timestamp.isoformat(), "sender_id": new_message.sender_id, "sender_username": new_message.sender.username }
-    
-    # Notify the OTHER participant
-    for participant in chat.participants:
-        if participant.id != sender_id:
-            create_notification(
-                user_id=participant.id,
-                content=f"You have a new message from {new_message.sender.username} regarding '{chat.product.name}'.",
-                link_url=f"/chat/{chat.id}"
-            )
-            
-    emit('server:new_message', message_data, room=f'chat_{chat_id}')
-=======
->>>>>>> 5f1aa463a79ab36c658b68dff4b33ded407bc008
 
 @socketio.on('client:accept_request') # UPDATED to add notification
 def handle_accept_request(data):
