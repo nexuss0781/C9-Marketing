@@ -5,3 +5,4 @@ Flask_JWT_Extended==4.7.1
 flask_sqlalchemy==3.1.1
 python-dotenv==1.1.1
 psycopg2-binary
+socket.io-client
