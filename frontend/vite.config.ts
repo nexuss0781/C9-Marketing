@@ -9,5 +9,8 @@ export default defineConfig({
   },
   preview: {
     allowedHosts: ['c9marketing.onrender.com']
+  },
+  css: {
+    postcss: './postcss.config.js',
   }
 })
