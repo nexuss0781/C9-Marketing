@@ -1,0 +1,83 @@
+// src/App.tsx
+import { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthProvider, AuthContext } from './contexts/AuthContext';
+import { SocketProvider, SocketContext } from './contexts/SocketContext';
+import { AppRoutes } from './routes/AppRoutes';
+import NotificationToast from './components/NotificationToast'; // We'll update this component
+
+interface NotificationData {
+    productId: number;
+    productName: string;
+    buyerId: number;
+    buyerUsername: string;
+}
+
+// This component now needs access to the router's navigation function
+const AppController = () => {
+    const { socket } = useContext(SocketContext)!;
+    const [notification, setNotification] = useState<NotificationData | null>(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleNewRequest = (data: NotificationData) => setNotification(data);
+        const handleChatStarted = (data: { chatId: number }) => navigate(`/chat/${data.chatId}`);
+        const handleError = (data: { msg: string }) => alert(`Server Error: ${data.msg}`);
+
+        socket.on('server:new_request', handleNewRequest);
+        socket.on('server:chat_started', handleChatStarted);
+        socket.on('server:error', handleError);
+
+        return () => { // Cleanup listeners
+            socket.off('server:new_request', handleNewRequest);
+            socket.off('server:chat_started', handleChatStarted);
+            socket.off('server:error', handleError);
+        };
+    }, [socket, navigate]);
+
+    const handleAccept = () => {
+        if (!socket || !notification) return;
+        socket.emit('client:accept_request', { 
+            productId: notification.productId, 
+            buyerId: notification.buyerId 
+        });
+        setNotification(null); // Close the toast immediately
+    };
+
+    const handleDecline = () => {
+        // Future enhancement: emit a 'client:decline_request' event
+        setNotification(null);
+    };
+
+    return (
+        <>
+            {notification && (
+                <NotificationToast
+                    notification={notification}
+                    onAccept={handleAccept}
+                    onDecline={handleDecline}
+                />
+            )}
+            <AppRoutes />
+        </>
+    );
+}
+
+// AppRoutes needs to be wrapped in the Router, so AppController can use navigate
+function App() {
+    return (
+        <AuthProvider>
+            <SocketProvider>
+                <BrowserRouter>
+                    <AppController />
+                </BrowserRouter>
+            </SocketProvider>
+        </AuthProvider>
+    );
+}
+
+// We must re-export BrowserRouter for AppRoutes to work correctly
+import { BrowserRouter } from 'react-router-dom';
+export default App;
