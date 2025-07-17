@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
 import Header from '../components/Header';
-import type { Product } from '../types/Product';
+import ProductCard, { type Product } from '../components/ProductCard';
 import { motion } from 'framer-motion';
 
 const containerVariants = {
@@ -82,7 +82,7 @@ export default function DashboardPage() {
                         initial="hidden"
                         animate="show"
                     >
-                        {Object.entries(productsByCategory).map(([category, items]) => (
+                        {Object.entries(productsByCategory).map(([category, items]: [string, Product[]]) => (
                             <motion.div key={category} variants={itemVariants}>
                                 <div className="flex justify-between items-center mb-4">
                                     <h2 className="text-3xl font-bold border-l-4 border-primary pl-4">{category}</h2>
