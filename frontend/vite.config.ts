@@ -6,5 +6,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: '0.0.0.0'
+  },
+  preview: {
+    allowedHosts: ['c9marketing.onrender.com']
   }
 })
