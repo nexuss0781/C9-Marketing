@@ -81,4 +81,5 @@ export default function ProductDetailPage() {
                 </div>
             </main>
         </div>
+    );
 }
