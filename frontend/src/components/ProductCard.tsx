@@ -20,17 +20,17 @@ export default function ProductCard({ product }: ProductCardProps) {
     const displayPhoto = product.photos[0] || 'https://via.placeholder.com/300';
 
     return (
-        <motion.div whileHover={{ y: -5 }} className="h-full">
-            <Link to={`/product/${product.id}`} className="block group card-base overflow-hidden h-full flex flex-col">
-                <div className="aspect-square overflow-hidden">
-                    <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src={displayPhoto} alt={product.name} />
+        <motion.div whileHover={{ y: -5 }} className="h-100">
+            <Link to={`/product/${product.id}`} className="card h-100 text-decoration-none text-dark">
+                <div style={{ aspectRatio: '1 / 1' }} className="overflow-hidden">
+                    <img className="w-100 h-100 object-cover" src={displayPhoto} alt={product.name} style={{ transition: 'transform .3s' }} />
                 </div>
-                <div className="p-4 flex-grow flex flex-col justify-between">
+                <div className="card-body d-flex flex-column justify-content-between">
                     <div>
-                        <p className="text-sm text-primary font-semibold">{product.category}</p>
-                        <h3 className="text-lg font-bold text-white mt-1 mb-2 truncate" title={product.name}>{product.name}</h3>
+                        <p className="text-primary fw-semibold">{product.category}</p>
+                        <h3 className="fs-5 fw-bold mt-1 mb-2 text-truncate" title={product.name}>{product.name}</h3>
                     </div>
-                    <p className="text-2xl font-extrabold text-white">${product.price.toFixed(2)}</p>
+                    <p className="fs-2 fw-bolder">${product.price.toFixed(2)}</p>
                 </div>
             </Link>
         </motion.div>

@@ -12,19 +12,19 @@ interface NotificationToastProps {
 
 export default function NotificationToast({ notification, onAccept, onDecline }: NotificationToastProps) {
     return (
-        <div className="fixed top-5 right-5 bg-indigo-600 text-white p-4 rounded-lg shadow-lg max-w-sm z-50 animate-fade-in-down">
-            <div className="flex justify-between items-start">
-                <div>
-                    <p className="font-bold">New Purchase Request!</p>
-                    <p className="text-sm mt-1">
-                        User <span className="font-semibold">{notification.buyerUsername}</span> wants to buy your item: <span className="font-semibold">{notification.productName}</span>.
-                    </p>
+        <div className="position-fixed top-0 end-0 p-3" style={{ zIndex: 1050 }}>
+            <div className="toast show bg-primary text-white" role="alert" aria-live="assertive" aria-atomic="true">
+                <div className="toast-header">
+                    <strong className="me-auto">New Purchase Request!</strong>
+                    <button type="button" className="btn-close" onClick={onDecline} aria-label="Close"></button>
                 </div>
-                <button onClick={onDecline} className="ml-4 text-2xl font-bold leading-none">×</button>
-            </div>
-            <div className="flex justify-end space-x-2 mt-3">
-                <button onClick={onDecline} className="px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs font-semibold">Decline</button>
-                <button onClick={onAccept} className="px-3 py-1 bg-green-500 hover:bg-green-400 rounded text-xs font-semibold">Accept & Chat</button>
+                <div className="toast-body">
+                    User <span className="fw-bold">{notification.buyerUsername}</span> wants to buy your item: <span className="fw-bold">{notification.productName}</span>.
+                </div>
+                <div className="mt-2 p-2 border-top border-light-subtle">
+                    <button onClick={onAccept} className="btn btn-success btn-sm me-2">Accept & Chat</button>
+                    <button onClick={onDecline} className="btn btn-secondary btn-sm">Decline</button>
+                </div>
             </div>
         </div>
     );

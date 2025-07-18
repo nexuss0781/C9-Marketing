@@ -23,17 +23,17 @@ export default function ProfilePage() {
         }
     }, [username]);
 
-    if (!profile) return <div>Loading profile...</div>
+    if (!profile) return <div className="bg-dark text-white min-vh-100 text-center p-5">Loading profile...</div>
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white">
+        <div className="min-vh-100 bg-dark text-white">
             <Header />
-            <main className="container mx-auto px-6 py-8">
-                <div className="max-w-2xl mx-auto bg-gray-800 p-8 rounded-lg shadow-xl text-center">
-                    <img src={profile.profilePhotoUrl} alt={profile.username} className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-indigo-500" />
-                    <h1 className="text-4xl font-bold">{profile.username}</h1>
-                    <p className="text-gray-400">Member since {new Date(profile.member_since).toLocaleDateString()}</p>
-                    <p className="mt-4 text-lg">{profile.bio || "This user hasn't written a bio yet."}</p>
+            <main className="container py-5">
+                <div className="col-md-8 mx-auto bg-secondary p-5 rounded-3 shadow-lg text-center">
+                    <img src={profile.profilePhotoUrl} alt={profile.username} className="rounded-circle mx-auto mb-4 border border-4 border-primary" style={{ width: '128px', height: '128px' }} />
+                    <h1 className="display-4 fw-bold">{profile.username}</h1>
+                    <p className="text-muted">Member since {new Date(profile.member_since).toLocaleDateString()}</p>
+                    <p className="mt-4 fs-5">{profile.bio || "This user hasn't written a bio yet."}</p>
                 </div>
             </main>
         </div>

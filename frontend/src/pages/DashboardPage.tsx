@@ -56,48 +56,47 @@ export default function DashboardPage() {
     }, {} as Record<string, Product[]>), [products]);
 
     return (
-        <div className="min-h-screen bg-background text-white">
+        <div className="min-vh-100 bg-dark text-white">
             <Header />
-            <main className="container mx-auto px-6 py-8">
-                <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-4xl font-bold">Available Goods</h1>
-                    <div className="flex items-center space-x-2 bg-surface p-1 rounded-md">
-                        <button onClick={() => handleSortChange('date')}
-                            className={`px-3 py-1 rounded-md text-sm font-semibold ${sortParams.sortBy === 'date' ? 'bg-primary' : 'bg-muted hover:bg-muted/80'}`}>
+            <main className="container py-5">
+                <div className="d-flex justify-content-between align-items-center mb-4">
+                    <h1 className="display-4 fw-bold">Available Goods</h1>
+                    <div className="btn-group" role="group">
+                        <button type="button" onClick={() => handleSortChange('date')}
+                            className={`btn ${sortParams.sortBy === 'date' ? 'btn-primary' : 'btn-outline-secondary'}`}>
                             Newest
                         </button>
-                        <button onClick={() => handleSortChange('price')}
-                            className={`px-3 py-1 rounded-md text-sm font-semibold ${sortParams.sortBy === 'price' ? 'bg-primary' : 'bg-muted hover:bg-muted/80'}`}>
+                        <button type="button" onClick={() => handleSortChange('price')}
+                            className={`btn ${sortParams.sortBy === 'price' ? 'btn-primary' : 'btn-outline-secondary'}`}>
                             Price {sortParams.sortBy === 'price' ? (sortParams.order === 'asc' ? '▲' : '▼') : ''}
                         </button>
                     </div>
                 </div>
 
-                {loading && <div className="text-center text-subtle">Loading fresh finds...</div>}
-                {error && <p className="text-red-500">{error}</p>}
+                {loading && <div className="text-center text-muted">Loading fresh finds...</div>}
+                {error && <p className="text-danger">{error}</p>}
                 {!loading && !error && (
                     <motion.div
-                        className="space-y-16"
                         variants={containerVariants}
                         initial="hidden"
                         animate="show"
                     >
                         {Object.entries(productsByCategory).map(([category, items]: [string, Product[]]) => (
-                            <motion.div key={category} variants={itemVariants}>
-                                <div className="flex justify-between items-center mb-4">
-                                    <h2 className="text-3xl font-bold border-l-4 border-primary pl-4">{category}</h2>
+                            <motion.div key={category} variants={itemVariants} className="mb-5">
+                                <div className="d-flex justify-content-between align-items-center mb-4">
+                                    <h2 className="h2 fw-bold border-start border-4 border-primary ps-3">{category}</h2>
                                     {items.length > 5 && (
-                                        <Link to={`/category/${category}`} className="font-semibold text-primary hover:underline">
+                                        <Link to={`/category/${category}`} className="fw-semibold text-primary">
                                             Show All →
                                         </Link>
                                     )}
                                 </div>
                                 <motion.div
                                     variants={containerVariants}
-                                    className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"
+                                    className="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4"
                                 >
                                     {items.slice(0, 5).map(product => (
-                                        <motion.div key={product.id} variants={itemVariants}>
+                                        <motion.div key={product.id} variants={itemVariants} className="col">
                                             <ProductCard product={product} />
                                         </motion.div>
                                     ))}

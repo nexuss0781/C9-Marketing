@@ -12,22 +12,22 @@ export default function Header() {
     const handleLogout = () => { auth?.logout(); navigate('/'); };
 
     return (
-        <header className="bg-surface/80 backdrop-blur-sm sticky top-0 z-40 shadow-lg border-b border-muted/50">
-            <nav className="container mx-auto px-6 py-3 flex justify-between items-center">
-                <Link to="/dashboard" className="text-2xl font-bold text-white hover:text-primary transition-colors">
+        <header className="bg-light shadow-sm">
+            <nav className="container d-flex justify-content-between align-items-center py-3">
+                <Link to="/dashboard" className="text-decoration-none text-dark fs-4 fw-bold">
                     C9
                 </Link>
-                <div className="flex items-center space-x-5">
-                    <Link to="/my-orders" className="text-xl text-subtle hover:text-white" title="My Orders"><FiBox /></Link>
-                    <div className="relative">
-                        <button onClick={() => setShowNotifications(p => !p)} className="text-xl text-subtle hover:text-white" title="Notifications"><FiBell /></button>
+                <div className="d-flex align-items-center">
+                    <Link to="/my-orders" className="text-secondary me-3" title="My Orders"><FiBox size={24} /></Link>
+                    <div className="position-relative me-3">
+                        <button onClick={() => setShowNotifications(p => !p)} className="btn btn-link text-secondary p-0" title="Notifications"><FiBell size={24} /></button>
                         {showNotifications && <Notifications />}
                     </div>
-                    <Link to="/settings" className="text-xl text-subtle hover:text-white" title="Settings"><FiSettings /></Link>
-                    <Link to="/sell" className="btn-primary flex items-center gap-2 text-sm">
-                        <FiPlusCircle /> Sell Item
+                    <Link to="/settings" className="text-secondary me-3" title="Settings"><FiSettings size={24} /></Link>
+                    <Link to="/sell" className="btn btn-primary d-flex align-items-center">
+                        <FiPlusCircle className="me-2" /> Sell Item
                     </Link>
-                    <button onClick={handleLogout} title="Logout" className="text-xl text-subtle hover:text-red-500"><FiLogOut /></button>
+                    <button onClick={handleLogout} title="Logout" className="btn btn-link text-danger p-0 ms-3"><FiLogOut size={24} /></button>
                 </div>
             </nav>
         </header>

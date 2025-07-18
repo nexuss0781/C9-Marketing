@@ -14,16 +14,16 @@ const OrderItemCard = ({ item, isSeller }: { item: Product; isSeller: boolean; }
     };
 
     return (
-        <div className="card-base p-4 flex items-center justify-between">
-            <div className="flex items-center">
-                <img src={item.photos[0]} alt={item.name} className="w-16 h-16 rounded-md object-cover mr-4" />
+        <div className="card bg-secondary p-3 d-flex flex-row align-items-center justify-content-between">
+            <div className="d-flex align-items-center">
+                <img src={item.photos[0]} alt={item.name} className="rounded me-3" style={{ width: '64px', height: '64px', objectFit: 'cover' }} />
                 <div>
-                    <Link to={`/product/${item.id}`} className="font-bold text-lg text-white hover:underline">{item.name}</Link>
-                    <p className="text-sm text-subtle">Status: <span className="font-semibold text-yellow-400">{currentStatus}</span></p>
+                    <Link to={`/product/${item.id}`} className="fw-bold fs-5 text-white text-decoration-none">{item.name}</Link>
+                    <p className="text-sm text-muted mb-0">Status: <span className="fw-semibold text-warning">{currentStatus}</span></p>
                 </div>
             </div>
             {isSeller && (
-                <select value={currentStatus} onChange={handleStatusChange} className="input-primary w-48 text-sm p-2 mt-0">
+                <select value={currentStatus} onChange={handleStatusChange} className="form-select bg-dark text-white border-secondary w-auto">
                     <option>Awaiting Drop-off</option> <option>At Center</option> <option>Shipped</option> <option>Completed</option>
                 </select>
             )}
@@ -36,21 +36,21 @@ export default function OrdersPage() {
     useEffect(() => { api.get('/me/orders').then(res => setOrders(res.data)) }, []);
 
     return (
-        <div className="bg-background min-h-screen">
+        <div className="bg-dark min-vh-100 text-white">
             <Header />
-            <main className="container mx-auto px-6 py-12">
-                <h1 className="text-4xl font-bold mb-8">My Orders</h1>
-                <div className="space-y-12">
+            <main className="container py-5">
+                <h1 className="display-4 fw-bold mb-5">My Orders</h1>
+                <div className="vstack gap-5">
                     <div>
-                        <h2 className="text-2xl font-bold mb-4 border-b border-muted/50 pb-2">Items I'm Selling</h2>
-                        <div className="space-y-4">
-                            {orders?.selling.length ? (orders.selling.map(item => <OrderItemCard key={item.id} item={item} isSeller={true} />)) : <p className="text-subtle">You haven't sold any items yet.</p>}
+                        <h2 className="h2 fw-bold mb-4 border-bottom pb-2">Items I'm Selling</h2>
+                        <div className="vstack gap-3">
+                            {orders?.selling.length ? (orders.selling.map(item => <OrderItemCard key={item.id} item={item} isSeller={true} />)) : <p className="text-muted">You haven't sold any items yet.</p>}
                         </div>
                     </div>
                     <div>
-                        <h2 className="text-2xl font-bold mb-4 border-b border-muted/50 pb-2">Items I'm Buying</h2>
-                        <div className="space-y-4">
-                             {orders?.buying.length ? (orders.buying.map(item => <OrderItemCard key={item.id} item={item} isSeller={false} />)) : <p className="text-subtle">You haven't bought any items yet.</p>}
+                        <h2 className="h2 fw-bold mb-4 border-bottom pb-2">Items I'm Buying</h2>
+                        <div className="vstack gap-3">
+                             {orders?.buying.length ? (orders.buying.map(item => <OrderItemCard key={item.id} item={item} isSeller={false} />)) : <p className="text-muted">You haven't bought any items yet.</p>}
                         </div>
                     </div>
                 </div>
