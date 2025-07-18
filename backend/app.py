@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager, decode_token, verify_jwt_token
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager, decode_token
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, disconnect, join_room, leave_room
 
@@ -311,11 +311,17 @@ def handle_connect():
     if not token: disconnect()
     with app.app_context():
         try:
-            decoded_token = verify_jwt_token(token)
+            decoded_token = decode_token(token)
+            # Check if token is expired
+            if datetime.fromtimestamp(decoded_token['exp']) < datetime.utcnow():
+                disconnect()
+                return
             user_id = decoded_token['sub']
             user_sids[user_id] = request.sid
             print(f"Client connected: user_id {user_id} with sid {request.sid}")
-        except Exception: disconnect()
+        except Exception as e:
+            print(f"Token decoding error: {e}")
+            disconnect()
 
 @socketio.on('disconnect') #... (no changes)
 def handle_disconnect():
