@@ -56,54 +56,6 @@
 
 A modern, full-stack e-commerce platform built with React, TypeScript, Flask, and TailwindCSS. C9-Marketing provides a seamless shopping experience with real-time updates and secure user authentication.
 
-## ✨ End-to-End Features
-
-### 🔐 Authentication & Authorization
-- Secure user registration with email verification
-- JWT-based authentication with refresh tokens
-- OAuth2 social login integration
-- Role-based access control (RBAC)
-- Protected routes for authenticated users
-
-### � User Experience
-- Personalized user dashboard
-- Multi-language support
-- Dark/Light theme switching
-- Real-time notifications
-- Activity history tracking
-
-### �️ Shopping Experience
-- Advanced product search with filters
-- Real-time inventory tracking
-- Dynamic pricing system
-- Wishlist management
-- Product recommendations
-- Shopping cart persistence
-- Guest checkout option
-
-### � Seller Dashboard
-- Product listing management
-- Inventory tracking
-- Sales analytics
-- Order management
-- Customer messaging system
-- Performance metrics
-
-### 💳 Payment & Checkout
-- Multiple payment methods
-- Secure payment processing
-- Order confirmation system
-- Invoice generation
-- Refund management
-- Address validation
-
-### 📊 Analytics & Reporting
-- Sales performance tracking
-- User behavior analytics
-- Inventory reports
-- Revenue analytics
-- Customer insights
-- SEO performance tracking
 
 ## 🚀 Tech Stack
 
