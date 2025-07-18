@@ -8,3 +8,4 @@ psycopg2-binary
 python-socketio
 Flask-SocketIO
 eventlet
+alembic
