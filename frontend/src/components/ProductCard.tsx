@@ -1,4 +1,7 @@
 // src/components/ProductCard.tsx
+import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+
 export interface Product {
   id: number;
   name: string;
@@ -6,6 +9,7 @@ export interface Product {
   photos: string[];
   category: string;
   condition: string;
+  pickup_status?: string; // from Phase 5
 }
 
 interface ProductCardProps {
@@ -13,18 +17,22 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const displayPhoto = product.photos[0] || 'https://via.placeholder.com/300'; // Fallback image
+    const displayPhoto = product.photos[0] || 'https://via.placeholder.com/300';
 
-  return (
-    <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700 transition-transform transform hover:-translate-y-1">
-      <img className="w-full h-56 object-cover" src={displayPhoto} alt={product.name} />
-      <div className="p-4">
-        <h3 className="text-xl font-semibold text-white mb-2">{product.name}</h3>
-        <p className="text-2xl font-bold text-indigo-400">${product.price.toFixed(2)}</p>
-        <div className="text-gray-400 text-sm mt-2">
-          <span>{product.category}</span> • <span>{product.condition}</span>
-        </div>
-      </div>
-    </div>
-  );
+    return (
+        <motion.div whileHover={{ y: -5 }} className="h-100">
+            <Link to={`/product/${product.id}`} className="card h-100 text-decoration-none text-dark">
+                <div style={{ aspectRatio: '1 / 1' }} className="overflow-hidden">
+                    <img className="w-100 h-100 object-cover" src={displayPhoto} alt={product.name} style={{ transition: 'transform .3s' }} />
+                </div>
+                <div className="card-body d-flex flex-column justify-content-between">
+                    <div>
+                        <p className="text-primary fw-semibold">{product.category}</p>
+                        <h3 className="fs-5 fw-bold mt-1 mb-2 text-truncate" title={product.name}>{product.name}</h3>
+                    </div>
+                    <p className="fs-2 fw-bolder">${product.price.toFixed(2)}</p>
+                </div>
+            </Link>
+        </motion.div>
+    );
 }
