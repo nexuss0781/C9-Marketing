@@ -40,40 +40,40 @@ export default function ProductDetailPage() {
     
     const isOwnProduct = product?.seller.id === userId;
 
-    if (loading) return <div className="bg-background text-white min-h-screen text-center p-10">Loading...</div>;
-    if (error) return <div className="bg-background text-white min-h-screen text-center p-10">{error}</div>;
-    if (!product) return <div className="bg-background text-white min-h-screen text-center p-10">Product not found.</div>;
+    if (loading) return <div className="bg-dark text-white min-vh-100 text-center p-5">Loading...</div>;
+    if (error) return <div className="bg-dark text-white min-vh-100 text-center p-5">{error}</div>;
+    if (!product) return <div className="bg-dark text-white min-vh-100 text-center p-5">Product not found.</div>;
 
     return (
-        <div className="bg-background">
+        <div className="bg-dark text-white">
             <Header />
-            <main className="container mx-auto px-6 py-12">
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-                    <div className="lg:col-span-3">
-                        <img src={product.photos[0] || 'https://via.placeholder.com/600'} alt={product.name} className="w-full rounded-lg shadow-xl aspect-video object-cover" />
+            <main className="container py-5">
+                <div className="row g-5">
+                    <div className="col-lg-7">
+                        <img src={product.photos[0] || 'https://via.placeholder.com/600'} alt={product.name} className="w-100 rounded-3 shadow-lg" style={{ aspectRatio: '16/9', objectFit: 'cover' }} />
                     </div>
-                    <div className="lg:col-span-2">
-                        <div className="bg-surface p-8 rounded-lg shadow-xl">
-                            <span className={`inline-block px-3 py-1 text-sm font-semibold rounded-full mb-4 ${product.status === 'Available' ? 'bg-green-600/20 text-green-300' : 'bg-yellow-600/20 text-yellow-300'}`}>{product.status}</span>
-                            <h1 className="text-4xl font-bold mb-2 text-white">{product.name}</h1>
-                            <p className="text-4xl font-bold text-primary mb-6">${product.price.toFixed(2)}</p>
+                    <div className="col-lg-5">
+                        <div className="bg-secondary p-4 rounded-3 shadow-lg">
+                            <span className={`badge mb-4 ${product.status === 'Available' ? 'bg-success' : 'bg-warning'}`}>{product.status}</span>
+                            <h1 className="display-5 fw-bold mb-2">{product.name}</h1>
+                            <p className="display-4 fw-bold text-primary mb-4">${product.price.toFixed(2)}</p>
                             
-                            <div className="space-y-3 text-gray-300 mb-6 border-y border-muted/50 py-4">
-                                <p className="flex items-center gap-3"><FiTag className="text-primary"/> <span className="font-semibold">Category:</span> {product.category}</p>
-                                <p className="flex items-center gap-3"><FiClipboard className="text-primary"/> <span className="font-semibold">Condition:</span> {product.condition}</p>
-                                <p className="flex items-center gap-3"><FiMapPin className="text-primary"/> <span className="font-semibold">Location:</span> {product.address}</p>
+                            <div className="vstack gap-2 text-light mb-4 border-top border-bottom border-secondary py-4">
+                                <p className="d-flex align-items-center gap-3"><FiTag className="text-primary"/> <span className="fw-semibold">Category:</span> {product.category}</p>
+                                <p className="d-flex align-items-center gap-3"><FiClipboard className="text-primary"/> <span className="fw-semibold">Condition:</span> {product.condition}</p>
+                                <p className="d-flex align-items-center gap-3"><FiMapPin className="text-primary"/> <span className="fw-semibold">Location:</span> {product.address}</p>
                             </div>
                             
-                            <div className="bg-background p-4 rounded-lg mb-6">
-                                <h3 className="text-xl font-bold mb-3">Seller Information</h3>
-                                <div className="space-y-3 text-gray-300">
-                                    <p className="flex items-center gap-3"><FiUser className="text-primary"/> <Link to={`/profile/${product.seller.username}`} className="hover:underline">{product.seller.username}</Link></p>
-                                    <p className="flex items-center gap-3"><FiPhone className="text-primary"/> {product.seller.phone}</p>
-                                    <p className="flex items-center gap-3"><FiCalendar className="text-primary"/> Member since {new Date(product.seller.member_since).toLocaleDateString()}</p>
+                            <div className="bg-dark p-4 rounded-3 mb-4">
+                                <h3 className="h4 fw-bold mb-3">Seller Information</h3>
+                                <div className="vstack gap-2 text-light">
+                                    <p className="d-flex align-items-center gap-3"><FiUser className="text-primary"/> <Link to={`/profile/${product.seller.username}`} className="text-white">{product.seller.username}</Link></p>
+                                    <p className="d-flex align-items-center gap-3"><FiPhone className="text-primary"/> {product.seller.phone}</p>
+                                    <p className="d-flex align-items-center gap-3"><FiCalendar className="text-primary"/> Member since {new Date(product.seller.member_since).toLocaleDateString()}</p>
                                 </div>
                             </div>
                             
-                            <button onClick={handleRequestPurchase} disabled={product.status !== 'Available' || requestStatus !== 'idle' || isOwnProduct} className="w-full py-4 btn-primary disabled:bg-muted disabled:cursor-not-allowed text-lg">
+                            <button onClick={handleRequestPurchase} disabled={product.status !== 'Available' || requestStatus !== 'idle' || isOwnProduct} className="w-100 py-3 btn btn-primary btn-lg">
                                 {isOwnProduct ? 'This is your item' : (requestStatus === 'idle' ? 'Request to Buy' : 'Request Sent!')}
                             </button>
                         </div>
@@ -81,5 +81,4 @@ export default function ProductDetailPage() {
                 </div>
             </main>
         </div>
-    );
 }

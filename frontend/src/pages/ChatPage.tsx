@@ -72,38 +72,38 @@ export default function ChatPage() {
     const isSeller = product?.seller_id === userId;
 
     return (
-        <div className="flex flex-col h-screen bg-background">
+        <div className="d-flex flex-column vh-100 bg-dark text-white">
             <Header />
-            <div className="flex-grow flex flex-col p-4 overflow-hidden">
-                <div className="border-b border-muted/50 pb-3 mb-4 flex justify-between items-center">
+            <div className="flex-grow-1 d-flex flex-column p-4 overflow-hidden">
+                <div className="border-bottom pb-3 mb-4 d-flex justify-content-between align-items-center">
                     <div>
-                        <h1 className="text-xl font-bold text-white">Chat about: {product?.name || '...'}</h1>
-                        <p className="text-sm text-subtle">with {otherParticipant?.username || 'user'}</p>
+                        <h1 className="fs-5 fw-bold">Chat about: {product?.name || '...'}</h1>
+                        <p className="text-sm text-muted mb-0">with {otherParticipant?.username || 'user'}</p>
                     </div>
                     {isSeller && (
                         <button
                             onClick={handleMarkAsSold}
                             disabled={product?.status === 'Sold'}
-                            className="btn-secondary text-sm py-1 px-3 disabled:bg-green-800 disabled:text-green-300 disabled:cursor-not-allowed">
+                            className="btn btn-secondary btn-sm">
                             {product?.status === 'Sold' ? 'Sold' : 'Mark as Sold'}
                         </button>
                     )}
                 </div>
-                {error && <p className="text-red-500 text-center">{error}</p>}
-                <div className="flex-grow overflow-y-auto space-y-4 pr-2">
+                {error && <p className="text-danger text-center">{error}</p>}
+                <div className="flex-grow-1 overflow-y-auto pe-2">
                     {messages.map(msg => (
-                        <div key={msg.id} className={`flex items-end gap-3 ${msg.sender_id === userId ? 'justify-end' : 'justify-start'}`}>
-                            <div className={`max-w-xs lg:max-w-md p-3 rounded-lg ${msg.sender_id === userId ? 'bg-primary' : 'bg-surface'}`}>
-                                <p className="text-sm text-white">{msg.content}</p>
+                        <div key={msg.id} className={`d-flex align-items-end gap-2 mb-3 ${msg.sender_id === userId ? 'justify-content-end' : 'justify-content-start'}`}>
+                            <div className={`p-3 rounded-3 ${msg.sender_id === userId ? 'bg-primary' : 'bg-secondary'}`} style={{ maxWidth: '70%' }}>
+                                <p className="text-sm text-white mb-0">{msg.content}</p>
                             </div>
                         </div>
                     ))}
                     <div ref={messagesEndRef} />
                 </div>
-                <form onSubmit={handleSendMessage} className="mt-4 flex items-center gap-3">
+                <form onSubmit={handleSendMessage} className="mt-4 d-flex align-items-center gap-3">
                     <input type="text" value={newMessage} onChange={e => setNewMessage(e.target.value)}
-                        className="input-primary" placeholder="Type a message..." />
-                    <button type="submit" className="btn-primary p-3 text-xl"><FiSend /></button>
+                        className="form-control bg-dark text-white border-secondary" placeholder="Type a message..." />
+                    <button type="submit" className="btn btn-primary p-2 fs-5"><FiSend /></button>
                 </form>
             </div>
         </div>

@@ -21,19 +21,21 @@ export default function CategoryPage() {
     }, [categoryName]);
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white">
+        <div className="min-vh-100 bg-dark text-white">
             <Header />
-            <main className="container mx-auto px-6 py-8">
-                <div className="mb-6">
-                    <Link to="/dashboard" className="text-indigo-400 hover:underline">← Back to Dashboard</Link>
-                    <h1 className="text-4xl font-bold mt-2">Category: {categoryName}</h1>
+            <main className="container py-5">
+                <div className="mb-4">
+                    <Link to="/dashboard" className="text-primary">← Back to Dashboard</Link>
+                    <h1 className="display-4 fw-bold mt-2">Category: {categoryName}</h1>
                 </div>
                 {loading ? (
                     <p>Loading...</p>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                         {products.map(product => (
-                            <ProductCard key={product.id} product={product} />
+                            <div key={product.id} className="col">
+                                <ProductCard product={product} />
+                            </div>
                         ))}
                     </div>
                 )}

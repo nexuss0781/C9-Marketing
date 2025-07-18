@@ -25,28 +25,28 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
-            <Link to="/" className="text-center mb-8 group">
-                <h1 className="text-5xl font-bold text-white group-hover:text-primary transition-colors">C9</h1>
-                <p className="text-subtle">Sign in to continue</p>
+        <div className="d-flex flex-column align-items-center justify-content-center vh-100 bg-dark text-white p-4">
+            <Link to="/" className="text-center mb-5 text-decoration-none">
+                <h1 className="display-1 fw-bold text-white">C9</h1>
+                <p className="text-muted">Sign in to continue</p>
             </Link>
-            <div className="p-8 card-base w-full max-w-md">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                        <label className="label-primary">Phone Number</label>
-                        <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} className="input-primary"/>
+            <div className="card bg-secondary p-5 w-100" style={{ maxWidth: '448px' }}>
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                        <label className="form-label">Phone Number</label>
+                        <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} className="form-control bg-dark text-white border-secondary"/>
                     </div>
-                    <div>
-                        <label className="label-primary">Password</label>
-                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="input-primary"/>
+                    <div className="mb-3">
+                        <label className="form-label">Password</label>
+                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="form-control bg-dark text-white border-secondary"/>
                     </div>
-                    {error && <p className="text-red-400 text-sm text-center">{error}</p>}
-                    <button type="submit" className="w-full btn-primary text-lg py-3">
+                    {error && <p className="text-danger text-center">{error}</p>}
+                    <button type="submit" className="w-100 btn btn-primary btn-lg mt-4">
                         Sign In
                     </button>
                 </form>
-                <p className="text-center text-subtle mt-6">
-                    Don't have an account? <Link to="/signup" className="font-semibold text-primary hover:underline">Sign up</Link>
+                <p className="text-center text-muted mt-4">
+                    Don't have an account? <Link to="/signup" className="fw-bold text-primary">Sign up</Link>
                 </p>
             </div>
         </div>

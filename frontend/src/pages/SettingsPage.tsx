@@ -29,24 +29,24 @@ export default function SettingsPage() {
         } catch (err) { setMessage('Failed to update profile.'); }
     };
 
-    if (!formData) return <div>Loading...</div>;
+    if (!formData) return <div className="bg-dark text-white min-vh-100 text-center p-5">Loading...</div>;
 
     return (
-        <div className="bg-background">
+        <div className="bg-dark text-white min-vh-100">
             <Header />
-            <main className="container mx-auto px-6 py-12">
-                <div className="max-w-2xl mx-auto">
-                    <h1 className="text-4xl font-bold mb-8">Your Settings</h1>
-                    <div className="card-base p-8">
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            <div><label className="label-primary">Full Name</label><input type="text" name="fullName" value={formData.fullName} onChange={handleChange} className="input-primary"/></div>
-                            <div><label className="label-primary">Profile Photo URL</label><input type="text" name="profilePhotoUrl" value={formData.profilePhotoUrl} onChange={handleChange} className="input-primary"/></div>
-                            <div><label className="label-primary">Address</label><input type="text" name="address" value={formData.address} onChange={handleChange} className="input-primary"/></div>
-                            <div><label className="label-primary">Bio</label><textarea name="bio" value={formData.bio || ''} onChange={handleChange} rows={4} className="input-primary"/></div>
-                            <div><label className="label-primary">Contact & Pickup Preferences</label><textarea name="preferences" value={formData.preferences || ''} onChange={handleChange} rows={3} placeholder="e.g., Prefers cash on pickup..." className="input-primary"/></div>
-                            <div><label className="label-primary">Telegram Username</label><input type="text" name="telegram" value={formData.socialMedia?.telegram || ''} onChange={handleChange} className="input-primary"/></div>
-                            {message && <p className="text-green-400 text-center">{message}</p>}
-                            <button type="submit" className="w-full btn-primary py-3 text-lg">Save Changes</button>
+            <main className="container py-5">
+                <div className="col-md-8 mx-auto">
+                    <h1 className="display-4 fw-bold mb-5">Your Settings</h1>
+                    <div className="card bg-secondary p-5">
+                        <form onSubmit={handleSubmit} className="vstack gap-4">
+                            <div><label className="form-label">Full Name</label><input type="text" name="fullName" value={formData.fullName} onChange={handleChange} className="form-control bg-dark text-white border-secondary"/></div>
+                            <div><label className="form-label">Profile Photo URL</label><input type="text" name="profilePhotoUrl" value={formData.profilePhotoUrl} onChange={handleChange} className="form-control bg-dark text-white border-secondary"/></div>
+                            <div><label className="form-label">Address</label><input type="text" name="address" value={formData.address} onChange={handleChange} className="form-control bg-dark text-white border-secondary"/></div>
+                            <div><label className="form-label">Bio</label><textarea name="bio" value={formData.bio || ''} onChange={handleChange} rows={4} className="form-control bg-dark text-white border-secondary"/></div>
+                            <div><label className="form-label">Contact & Pickup Preferences</label><textarea name="preferences" value={formData.preferences || ''} onChange={handleChange} rows={3} placeholder="e.g., Prefers cash on pickup..." className="form-control bg-dark text-white border-secondary"/></div>
+                            <div><label className="form-label">Telegram Username</label><input type="text" name="telegram" value={formData.socialMedia?.telegram || ''} onChange={handleChange} className="form-control bg-dark text-white border-secondary"/></div>
+                            {message && <p className="text-success text-center">{message}</p>}
+                            <button type="submit" className="w-100 btn btn-primary btn-lg">Save Changes</button>
                         </form>
                     </div>
                 </div>

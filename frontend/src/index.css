@@ -1,41 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  html {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  body {
-    @apply bg-background text-gray-200;
-  }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@layer components {
-  /* BUTTONS - A comprehensive button system */
-  .btn {
-    @apply inline-block font-bold py-2 px-5 rounded-lg transition duration-300 shadow-md;
-    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background;
-  }
-  .btn-primary {
-    @apply btn bg-primary text-white hover:bg-primary-hover focus:ring-primary;
-  }
-  .btn-secondary {
-    @apply btn bg-surface text-white hover:bg-muted focus:ring-muted;
-  }
-  
-  /* FORMS - A consistent form element style */
-  .input-primary {
-    @apply w-full mt-1 p-3 bg-surface border border-muted/50 rounded-md text-white placeholder-subtle;
-    @apply transition-shadow focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
-  }
-  .label-primary {
-    @apply block text-sm font-medium text-gray-300;
-  }
-
-  /* CARDS & CONTAINERS - The base for all boxed content */
-  .card-base {
-    @apply bg-surface border border-muted/50 rounded-lg shadow-lg;
-  }
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
