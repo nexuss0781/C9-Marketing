@@ -1,3 +1,6 @@
+import eventlet
+eventlet.monkey_patch()
+
 # ==============================================================================
 # IMPORTS & INITIALIZATION
 # ==============================================================================
@@ -7,7 +10,7 @@ from dotenv import load_dotenv
 from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager, decode_token
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager, decode_token, verify_jwt_token
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit, disconnect, join_room, leave_room
 
@@ -306,12 +309,13 @@ def get_chat_history(chat_id):
 def handle_connect():
     token = request.args.get('token');
     if not token: disconnect()
-    try:
-        with app.app_context():
-            user_id = decode_token(token)['sub']
-        user_sids[user_id] = request.sid
-        print(f"Client connected: user_id {user_id} with sid {request.sid}")
-    except Exception: disconnect()
+    with app.app_context():
+        try:
+            decoded_token = verify_jwt_token(token)
+            user_id = decoded_token['sub']
+            user_sids[user_id] = request.sid
+            print(f"Client connected: user_id {user_id} with sid {request.sid}")
+        except Exception: disconnect()
 
 @socketio.on('disconnect') #... (no changes)
 def handle_disconnect():
