@@ -306,7 +306,11 @@ def get_chat_history(chat_id):
 def handle_connect():
     token = request.args.get('token');
     if not token: disconnect()
-    try: user_id = decode_token(token)['sub']; user_sids[user_id] = request.sid; print(f"Client connected: user_id {user_id} with sid {request.sid}")
+    try:
+        with app.app_context():
+            user_id = decode_token(token)['sub']
+        user_sids[user_id] = request.sid
+        print(f"Client connected: user_id {user_id} with sid {request.sid}")
     except Exception: disconnect()
 
 @socketio.on('disconnect') #... (no changes)
