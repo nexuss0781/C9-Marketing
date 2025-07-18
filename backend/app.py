@@ -55,7 +55,6 @@ class UserModel(db.Model):
     address = db.Column(db.String(200), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     # NEW FIELDS FOR PHASE 3
-    bio = db.Column(db.Text, nullable=True)
     profilePhotoUrl = db.Column(db.String(255), nullable=True, default='https://via.placeholder.com/150')
     socialMedia = db.Column(db.JSON, nullable=True)
     preferences = db.Column(db.Text, nullable=True, default='Prefers cash on pickup.')
@@ -389,7 +388,6 @@ def get_public_profile(username):
     return jsonify({
         "username": user.username,
         "profilePhotoUrl": user.profilePhotoUrl,
-        "bio": user.bio,
         "member_since": user.created_at.isoformat()
     }), 200
     
@@ -404,7 +402,6 @@ def get_my_profile():
         "phone": user.phone,
         "email": user.email,
         "address": user.address,
-        "bio": user.bio,
         "profilePhotoUrl": user.profilePhotoUrl,
         "socialMedia": user.socialMedia or {},
         "preferences": user.preferences # Added field
@@ -420,7 +417,6 @@ def update_my_profile():
     # Update fields if they exist in the request
     user.fullName = data.get('fullName', user.fullName)
     user.address = data.get('address', user.address)
-    user.bio = data.get('bio', user.bio)
     user.profilePhotoUrl = data.get('profilePhotoUrl', user.profilePhotoUrl)
     user.socialMedia = data.get('socialMedia', user.socialMedia)
     user.preferences = data.get('preferences', user.preferences) # Added field
