@@ -1,35 +1,35 @@
 // src/components/Header.tsx
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
+import Notifications from './Notifications';
+import { FiBell, FiSettings, FiLogOut, FiPlusCircle, FiBox } from 'react-icons/fi';
 
 export default function Header() {
-  const auth = useContext(AuthContext);
-  const navigate = useNavigate();
+    const [showNotifications, setShowNotifications] = useState(false);
+    const auth = useContext(AuthContext);
+    const navigate = useNavigate();
+    const handleLogout = () => { auth?.logout(); navigate('/'); };
 
-  const handleLogout = () => {
-    auth?.logout();
-    navigate('/');
-  };
-
-  return (
-    <header className="bg-gray-800 text-white shadow-md">
-      <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <Link to="/dashboard" className="text-2xl font-bold text-white hover:text-indigo-400">
-          C9 Marketplace
-        </Link>
-        <div className="space-x-4">
-          <Link to="/sell" className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded transition duration-300">
-            Sell Item
-          </Link>
-          <button
-            onClick={handleLogout}
-            className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded transition duration-300"
-          >
-            Logout
-          </button>
-        </div>
-      </nav>
-    </header>
-  );
+    return (
+        <header className="bg-light shadow-sm">
+            <nav className="container d-flex justify-content-between align-items-center py-3">
+                <Link to="/dashboard" className="text-decoration-none text-dark fs-4 fw-bold">
+                    C9
+                </Link>
+                <div className="d-flex align-items-center">
+                    <Link to="/my-orders" className="text-secondary me-3" title="My Orders"><FiBox size={24} /></Link>
+                    <div className="position-relative me-3">
+                        <button onClick={() => setShowNotifications(p => !p)} className="btn btn-link text-secondary p-0" title="Notifications"><FiBell size={24} /></button>
+                        {showNotifications && <Notifications />}
+                    </div>
+                    <Link to="/settings" className="text-secondary me-3" title="Settings"><FiSettings size={24} /></Link>
+                    <Link to="/sell" className="btn btn-primary d-flex align-items-center">
+                        <FiPlusCircle className="me-2" /> Sell Item
+                    </Link>
+                    <button onClick={handleLogout} title="Logout" className="btn btn-link text-danger p-0 ms-3"><FiLogOut size={24} /></button>
+                </div>
+            </nav>
+        </header>
+    );
 }

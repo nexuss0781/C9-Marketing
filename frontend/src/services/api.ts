@@ -8,12 +8,12 @@ if (!baseURL) {
 
 const api = axios.create({ baseURL });
 
-api.interceptors.request.use(config => {
+api.interceptors.request.use((config: any) => {
   const token = localStorage.getItem('authToken');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
-}, error => Promise.reject(error));
+}, (error: any) => Promise.reject(error));
 
 export default api;
